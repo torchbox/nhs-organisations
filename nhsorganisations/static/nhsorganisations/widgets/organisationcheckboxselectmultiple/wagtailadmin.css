@@ -1,0 +1,86 @@
+.organisation_checkbox_select_multiple .input > ul > li {
+    font-size: 1.25em;
+    margin-top: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: relative;
+    white-space: nowrap;
+}
+.organisation_checkbox_select_multiple .counts {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 0.8em;
+    font-weight: 300;
+    padding-left: 5px;
+}
+.organisation_checkbox_select_multiple .toggle-link {
+    display: block;
+    text-transform: none;
+    float: right;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: normal;
+    padding: 1px 2px;
+    margin: 0 4px;
+}
+.organisation_checkbox_select_multiple a {
+    outline: none;
+}
+.organisation_checkbox_select_multiple .toggle-link.check {
+    color: #189370;
+}
+.organisation_checkbox_select_multiple .toggle-link.uncheck {
+    color: #cd3238;
+}
+.organisation_checkbox_select_multiple .toggle-visibility {
+    float: left;
+    padding: 2px;
+    margin: -4px 2px 0 0;
+}
+.organisation_checkbox_select_multiple .divider {
+    display: block;
+    margin-top: 5px;
+    border-bottom: 2px solid #e9e9e9;
+}
+.organisation_checkbox_select_multiple .input > ul > li ul {
+    margin: 0 0 20px 0;
+    clear: both;
+    padding: 0;
+}
+.organisation_checkbox_select_multiple .input > ul > li li {
+    font-size: 0.85em;
+    line-height: 1.24em;
+    font-weight: normal;
+    white-space: normal;
+}
+.organisation_checkbox_select_multiple .input li label {
+    background-color: #fff;
+    display: block;
+    color: #666;
+    font-weight: 600;
+    position: relative;
+    border-radius: 3px;
+    padding: 10px 10px 10px 40px;
+}
+.organisation_checkbox_select_multiple label code {
+    padding: 3px 6px;
+    font-weight: normal;
+    white-space: nowrap;
+}
+.organisation_checkbox_select_multiple .input ul ul li:nth-child(even) label {
+    background-color: #f9f9f9;
+}
+.organisation_checkbox_select_multiple .input li label input {
+    position: absolute;
+    top: 13px;
+    left: 7px;
+}
+.model_multiple_choice_field > fieldset > ul.fields > li:first-child .organisation_checkbox_select_multiple {
+    margin-top: -4.5em;
+}
+
+@media screen and (max-width: 38em) {
+    .organisation_checkbox_select_multiple .counts {
+        display: none;
+    }
+}

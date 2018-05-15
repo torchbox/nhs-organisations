@@ -1,0 +1,6 @@
+include README.rst
+include CHANGELOG.rst
+include runtests.py
+recursive-include nhsorganisations *.py
+recursive-include nhsorganisations *.json
+recursive-include nhsorganisations/static *
