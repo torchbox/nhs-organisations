@@ -50,7 +50,7 @@ class Organisation(models.Model):
     REGION_CHOICES = (('', _('None')),) + REGION_CHOICES_NO_BLANK
     REGION_CHOICES_OPTGROUPS = (('', _('Non-Regional')),) + REGION_CHOICES_NO_BLANK
 
-    code = models.CharField(max_length=20, unique=True)
+    code = models.CharField(max_length=20, unique=True, db_index=True)
     name = models.CharField(max_length=255)
     organisation_type = models.CharField(
         verbose_name=_('organisation type'),
