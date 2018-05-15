@@ -11,6 +11,6 @@ pipelines:
         caches:
           - pip
         script: # Modify the commands below to build your repository.
-          - pip tox coverage -U
+          - pip install tox coverage -U
           - tox
           - coverage report
