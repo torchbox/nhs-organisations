@@ -44,10 +44,10 @@ class OrganisationQuerySet(QuerySet):
             name=obj.name,
             code=obj.code,
             id=obj.id,
-            region_code=obj.region,
-            region_name=obj.get_region_display(),
+            region=obj.region,
+            region_label=obj.get_region_display(),
             type=obj.organisation_type,
-            type_name=obj.organisation_type_display(),
+            type_label=obj.get_organisation_type_display(),
         )
         if mark_closed and obj.is_closed:
             label += mark_safe(closed_string)
