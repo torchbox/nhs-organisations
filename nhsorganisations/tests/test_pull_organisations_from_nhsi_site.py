@@ -6,21 +6,18 @@ from nhsorganisations.models import Organisation
 
 class TestPullOrganisationsWhenPopulated(TestCase):
 
-    fixtures = ['organisations.json']
-
     def test_no_orgs_are_deleted(self):
-        # Fetch current pks and confirm there are a decent number of orgs
-        existing_org_ids = set(
-            Organisation.objects.all().values_list('pk', flat=True)
-        )
-        self.assertGreater(len(existing_org_ids), 200)
-        # Run the command
+        self.assertEqual(Organisation.objects.all().count(), 0)
+
+        # Run the command to populate from scratch
         call_command('pull_organisations_from_nhsi_site')
-        new_org_ids = set(
-            Organisation.objects.all().values_list('pk', flat=True)
-        )
-        # The number of orgs should never be less after running
-        self.assertGreaterEqual(len(new_org_ids), len(existing_org_ids))
-        # Confirm that all of the pks we had orginally still exist
-        for org_id in existing_org_ids:
-            self.assertIn(org_id, new_org_ids)
+        org_ids = list(Organisation.objects.all().values_list('id', flat=True))
+        self.assertGreater(len(org_ids), 0)
+
+        # Run the command again to update
+        call_command('pull_organisations_from_nhsi_site')
+        new_org_ids = list(Organisation.objects.all().values_list('id', flat=True))
+
+        # Confirm that all of the ids that existed before still exist
+        for id in org_ids:
+            self.assertIn(id, new_org_ids)
