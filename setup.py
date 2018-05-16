@@ -13,7 +13,9 @@ dowload_url = '%starball/v%s' % (base_url, __version__)
 branch_url = "%stree/stable/%s" % (base_url, stable_branch_name)
 
 # Testing dependencies
-testing_extras = []
+testing_extras = [
+    'coverage>=3.7.0',
+]
 
 setup(
     name="nhs-organisations",
@@ -35,17 +37,14 @@ setup(
         "Operating System :: OS Independent",
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Framework :: Django',
-        'Framework :: Django :: 1.10',
         'Framework :: Django :: 1.11',
         'Framework :: Django :: 2.0',
         'Topic :: Internet :: WWW/HTTP',
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     ],
-    python_requires='>=3.4,<3.8',
+    python_requires='>=3.6,<3.8',
     install_requires=[
         "requests",
     ],
