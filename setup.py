@@ -13,9 +13,7 @@ dowload_url = '%starball/v%s' % (base_url, __version__)
 branch_url = "%stree/stable/%s" % (base_url, stable_branch_name)
 
 # Testing dependencies
-testing_extras = [
-    'django==1.11.13',
-]
+testing_extras = []
 
 setup(
     name="nhs-organisations",
