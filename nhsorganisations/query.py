@@ -78,7 +78,9 @@ class OrganisationQuerySet(QuerySet):
             choices = defaultdict(list)
             if alternative_optgroup_labels is None:
                 f = self.model._meta.get_field(group_by_field_name)
-                optgroup_label_choices = f.choices
+                optgroup_labels = f.choices
+            else:
+                optgroup_labels = alternative_optgroup_labels
 
         for obj in queryset:
             choice = (
@@ -96,7 +98,7 @@ class OrganisationQuerySet(QuerySet):
         if group_by_field_name:
             return [
                 (mark_safe(label), choices[val])
-                for val, label in optgroup_label_choices if val in choices
+                for val, label in optgroup_labels if val in choices
             ]
         return choices
 
