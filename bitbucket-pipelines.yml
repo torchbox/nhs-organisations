@@ -8,8 +8,6 @@ image: python:3.6
 pipelines:
   default:
     - step:
-        caches:
-          - pip
         script: # Modify the commands below to build your repository.
           - pip install tox coverage -U
           - tox
