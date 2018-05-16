@@ -66,8 +66,9 @@ class OrganisationQuerySet(QuerySet):
             group_by_field_name = 'organisation_type'
 
         queryset = self.all().annotate(is_closed=Case(
-            When(closure_date__isnull=True, then=0), default=1,
-            output_field=IntegerField
+            When(closure_date__isnull=True, then=0),
+            default=1,
+            output_field=IntegerField()
         ))
         if ordering:
             queryset = queryset.order_by(*ordering)
