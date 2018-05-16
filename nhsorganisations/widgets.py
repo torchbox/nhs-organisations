@@ -28,7 +28,7 @@ class GroupedOrganisationSelectMixin:
         if 'ordering' in kwargs:
             self.ordering = kwargs['ordering']
         else:
-            self.ordering = ('-is_closed', 'name')
+            self.ordering = ('is_closed', 'name')
         super().__init__(*args, **kwargs)
 
     @cached_property

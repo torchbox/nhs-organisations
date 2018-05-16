@@ -57,7 +57,7 @@ class OrganisationQuerySet(QuerySet):
         self, value_field='id', label_format="{name} ({code})",
         group_by_region=False, group_by_type=False, mark_closed=True,
         mark_closed_string=" (Closed)", alternative_optgroup_labels=None,
-        ordering=('-is_closed', 'name')
+        ordering=('is_closed', 'name')
     ):
         group_by_field_name = None
         if group_by_region:
