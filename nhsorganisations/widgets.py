@@ -7,32 +7,41 @@ MEDIA_BASE_DIR = 'nhsorganisations/widgets/'
 
 class GroupedOrganisationSelectMixin:
 
-    allow_html_in_labels = False
+    default_label_format = "{name} ({code})"
 
     def __init__(self, *args, **kwargs):
-        self.optgroup_choices = kwargs.pop('optgroup_choices', None)
-        self.group_by_region = kwargs.pop('grouped_by_region', False)
+        self.value_field = kwargs.pop('value_field', 'id')
+        self.label_format = kwargs.pop('label_format', self.default_label_format)
+        self.group_by_region = kwargs.pop('group_by_region', False)
         self.group_by_type = kwargs.pop('group_by_type', False)
+        self.alternative_optgroup_labels = kwargs.pop('alternative_optgroup_labels', None)
+        self.mark_closed = kwargs.pop('mark_closed', True)
+        self.closed_string = kwargs.pop('closed_string', None)
         if self.group_by_type:
             self.group_by_region = False
-        if self.optgroup_choices is None:
+        if self.alternative_optgroup_labels is None:
             if self.group_by_region:
-                self.optgroup_choices = Organisation.REGION_CHOICES_OPTGROUPS
+                self.alternative_optgroup_labels = Organisation.REGION_CHOICES_OPTGROUPS
             elif self.group_by_type:
-                self.optgroup_choices = Organisation.TYPE_CHOICES_PLURALISED
-        self.add_org_code_to_labels = kwargs.pop('add_org_code_to_labels', True)
-        self.limit_to = kwargs.pop('limit_to', None)
+                self.alternative_optgroup_labels = Organisation.TYPE_CHOICES_PLURALISED
+
+        if 'ordering' in kwargs:
+            self.ordering = kwargs['ordering']
+        else:
+            self.ordering = ('-is_closed', 'name')
         super().__init__(*args, **kwargs)
 
     @cached_property
     def grouped_organisation_choices(self):
         return Organisation.objects.as_choices(
+            value_field=self.value_field,
+            label_format=self.label_format,
             group_by_region=self.group_by_region,
             group_by_type=self.group_by_type,
-            limit_to=self.limit_to,
-            add_org_code_to_labels=self.add_org_code_to_labels,
-            use_code_tags=self.allow_html_in_labels,
-            optgroup_label_choices=self.optgroup_choices,
+            alternative_optgroup_labels=self.alternative_optgroup_labels,
+            mark_closed=self.mark_closed,
+            closed_string=self.closed_string,
+            ordering=self.ordering,
         )
 
     def render(self, *args, **kwargs):
@@ -43,7 +52,7 @@ class GroupedOrganisationSelectMixin:
 class OrganisationCheckboxSelectMultiple(
     GroupedOrganisationSelectMixin, forms.CheckboxSelectMultiple
 ):
-    allow_html_in_labels = True
+    default_label_format = "{name} <code>{code}</code>"
 
     class Media:
         css = {

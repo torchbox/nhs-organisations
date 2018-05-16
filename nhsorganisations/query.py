@@ -38,7 +38,7 @@ class OrganisationQuerySet(QuerySet):
         return self.filter(region__in=regions)
 
     @staticmethod
-    def choice_label_for_obj(format_string, obj, mark_closed_orgs):
+    def choice_label_for_obj(format_string, obj, mark_closed, closed_string):
         label = format_html(
             format_string,
             name=obj.name,
@@ -49,14 +49,15 @@ class OrganisationQuerySet(QuerySet):
             type=obj.organisation_type,
             type_name=obj.organisation_type_display(),
         )
-        if mark_closed_orgs and obj.is_closed:
-            label += ' (Closed)'
+        if mark_closed and obj.is_closed:
+            label += mark_safe(closed_string)
         return label
 
     def as_choices(
-        self, value_field='id', label_format="{name} <code>{code}</code>",
-        group_by_region=False, group_by_type=False, mark_closed_orgs=True,
-        optgroup_label_choices=None, ordering=('-is_closed', 'name')
+        self, value_field='id', label_format="{name} ({code})",
+        group_by_region=False, group_by_type=False, mark_closed=True,
+        mark_closed_string=" (Closed)", alternative_optgroup_labels=None,
+        ordering=('-is_closed', 'name')
     ):
         group_by_field_name = None
         if group_by_region:
@@ -74,14 +75,16 @@ class OrganisationQuerySet(QuerySet):
         choices = []
         if group_by_field_name:
             choices = defaultdict(list)
-            if optgroup_label_choices is None:
+            if alternative_optgroup_labels is None:
                 f = self.model._meta.get_field(group_by_field_name)
                 optgroup_label_choices = f.choices
 
         for obj in queryset:
             choice = (
                 getattr(obj, value_field),
-                self.choice_label_for_obj(label_format, obj, mark_closed_orgs)
+                self.choice_label_for_obj(
+                    label_format, obj, mark_closed, mark_closed_string
+                )
             )
             if group_by_field_name:
                 grouping_value = getattr(obj, group_by_field_name)
