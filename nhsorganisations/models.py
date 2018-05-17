@@ -1,6 +1,7 @@
+from collections import defaultdict
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
 
 from .query import OrganisationQuerySet
 
@@ -66,6 +67,13 @@ class Organisation(models.Model):
         choices=REGION_CHOICES,
     )
     closure_date = models.DateTimeField(null=True, blank=True)
+    successor = models.ForeignKey(
+        'self',
+        related_name='predecessors',
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+    )
     created_at = models.DateTimeField(editable=False)
     last_updated_at = models.DateTimeField(editable=False)
 
@@ -78,3 +86,36 @@ class Organisation(models.Model):
 
     def __str__(self):
         return '{name} ({code})'.format(name=self.name, code=self.code)
+
+    def get_merge_history(self, include_successor=True, include_predecessor_history=False):
+        if include_successor and self.successor:
+            for item in self.successor.get_merge_history(
+                include_successor=False,
+                include_predecessor_history=False
+            ):
+                yield item
+
+        qs = self.predecessors.all()
+        if include_predecessor_history:
+            qs = qs.prefetch_related('predecessors')
+        predecessors = tuple(qs.order_by('-closure_date'))
+
+        predecessors_by_date = defaultdict(list)
+        for org in predecessors:
+            key = org.closure_date.strftime('%Y-%m-%d')
+            predecessors_by_date[key].append(org)
+
+        for merge_date, orgs in predecessors_by_date.items():
+            yield {
+                'date': merge_date,
+                'successor_org': self,
+                'predecessor_orgs': orgs,
+            }
+
+        if include_predecessor_history:
+            for org in predecessors:
+                for item in org.get_merge_history(
+                    include_successor=False,
+                    include_predecessor_history=True,
+                ):
+                    yield item
