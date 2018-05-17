@@ -87,10 +87,12 @@ class Organisation(models.Model):
     def __str__(self):
         return '{name} ({code})'.format(name=self.name, code=self.code)
 
-    def get_merge_history(self, include_successor=True, include_predecessor_history=False):
+    def get_merge_history(self, include_successor=True, for_date=None,
+                          include_predecessor_history=False):
         if include_successor and self.successor:
             for item in self.successor.get_merge_history(
                 include_successor=False,
+                for_date=self.closure_date,
                 include_predecessor_history=False
             ):
                 yield item
@@ -98,6 +100,8 @@ class Organisation(models.Model):
         qs = self.predecessors.all()
         if include_predecessor_history:
             qs = qs.prefetch_related('predecessors')
+        if for_date:
+            qs = qs.filter(closure_date=for_date)
         predecessors = tuple(qs.order_by('-closure_date'))
 
         predecessors_by_date = defaultdict(list)
@@ -116,6 +120,6 @@ class Organisation(models.Model):
             for org in predecessors:
                 for item in org.get_merge_history(
                     include_successor=False,
-                    include_predecessor_history=True,
+                    include_predecessor_history=True
                 ):
                     yield item
