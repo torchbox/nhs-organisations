@@ -16,7 +16,7 @@ class GroupedOrganisationSelectMixin:
         self.group_by_type = kwargs.pop('group_by_type', False)
         self.alternative_optgroup_labels = kwargs.pop('alternative_optgroup_labels', None)
         self.mark_closed = kwargs.pop('mark_closed', True)
-        self.closed_string = kwargs.pop('closed_string', None)
+        self.closed_string = kwargs.pop('closed_string', ' (Closed)')
         if self.group_by_type:
             self.group_by_region = False
         if self.alternative_optgroup_labels is None:
