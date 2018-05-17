@@ -56,7 +56,7 @@ class OrganisationQuerySet(QuerySet):
     def as_choices(
         self, value_field='id', label_format="{name} ({code})",
         group_by_region=False, group_by_type=False, mark_closed=True,
-        mark_closed_string=" (Closed)", alternative_optgroup_labels=None,
+        closed_string=" (Closed)", alternative_optgroup_labels=None,
         ordering=('is_closed', 'name')
     ):
         group_by_field_name = None
@@ -86,7 +86,7 @@ class OrganisationQuerySet(QuerySet):
             choice = (
                 getattr(obj, value_field),
                 self.choice_label_for_obj(
-                    label_format, obj, mark_closed, mark_closed_string
+                    label_format, obj, mark_closed, closed_string
                 )
             )
             if group_by_field_name:
