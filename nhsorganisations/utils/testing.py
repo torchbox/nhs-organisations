@@ -73,7 +73,7 @@ def create_minimal_organisations(create_for_each_region=False):
         # --------------------------------------------------------------------
         dict(
             id=9,
-            code='578',
+            code='15E',
             name="NHS Birmingham and Solihull CCG",
             region=Organisation.REGION_MIDLANDS_AND_EAST_ENGLAND,
             organisation_type=Organisation.TYPE_COMMISSIONER,
