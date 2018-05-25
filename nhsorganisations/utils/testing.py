@@ -106,16 +106,47 @@ def create_minimal_organisations(create_for_each_region=False):
             successor_id=9,
         ),
         # --------------------------------------------------------------------
-        # A couple of independent providers
+        # And CCGs for other regions
         # --------------------------------------------------------------------
         dict(
             id=13,
+            code='03F',
+            name="NHS Hull CCG",
+            region=Organisation.REGION_NORTH_ENGLAND,
+            organisation_type=Organisation.TYPE_COMMISSIONER,
+        ),
+        dict(
+            id=14,
+            code='08A',
+            name="NHS Greenwich CCG",
+            region=Organisation.REGION_LONDON,
+            organisation_type=Organisation.TYPE_COMMISSIONER,
+        ),
+        dict(
+            id=15,
+            code='10Q',
+            name="NHS Oxfordshire CCG",
+            region=Organisation.REGION_SOUTH_EAST,
+            organisation_type=Organisation.TYPE_COMMISSIONER,
+        ),
+        dict(
+            id=16,
+            code='15C',
+            name="NHS Bristol, North Somerset and South Gloucestershire CCG",
+            region=Organisation.REGION_SOUTH_WEST,
+            organisation_type=Organisation.TYPE_COMMISSIONER,
+        ),
+        # --------------------------------------------------------------------
+        # A couple of independent providers
+        # --------------------------------------------------------------------
+        dict(
+            id=17,
             code='NTG',
             name="Marie Stopes International",
             organisation_type=Organisation.TYPE_INDEPENDENT_PROVIDER,
         ),
         dict(
-            id=14,
+            id=18,
             code='NKI',
             name="Turning Point",
             organisation_type=Organisation.TYPE_INDEPENDENT_PROVIDER,
