@@ -102,7 +102,7 @@ class Organisation(models.Model):
         if include_predecessor_history:
             qs = qs.prefetch_related('predecessors')
         if for_date:
-            qs = qs.filter(closure_date=for_date)
+            qs = qs.filter(closure_date__date=for_date)
         predecessors = tuple(qs.order_by('-closure_date'))
 
         if not group_by_date:
