@@ -87,15 +87,16 @@ class Organisation(models.Model):
     def __str__(self):
         return '{name} ({code})'.format(name=self.name, code=self.code)
 
-    def get_merge_history(self, include_successor=True, for_date=None,
-                          include_predecessor_history=False):
+    def get_merge_history(
+        self, include_successor=True, group_by_date=True, for_date=None,
+        include_predecessor_history=False
+    ):
         if include_successor and self.successor:
-            for item in self.successor.get_merge_history(
-                include_successor=False,
-                for_date=self.closure_date,
-                include_predecessor_history=False
-            ):
-                yield item
+            yield {
+                'date': self.closure_date.strftime('%Y-%m-%d'),
+                'successor_org': self.successor,
+                'predecessor_org': self,
+            }
 
         qs = self.predecessors.all()
         if include_predecessor_history:
@@ -104,22 +105,30 @@ class Organisation(models.Model):
             qs = qs.filter(closure_date=for_date)
         predecessors = tuple(qs.order_by('-closure_date'))
 
-        predecessors_by_date = defaultdict(list)
-        for org in predecessors:
-            key = org.closure_date.strftime('%Y-%m-%d')
-            predecessors_by_date[key].append(org)
-
-        for merge_date, orgs in predecessors_by_date.items():
-            yield {
-                'date': merge_date,
-                'successor_org': self,
-                'predecessor_orgs': orgs,
-            }
+        if not group_by_date:
+            for org in predecessors:
+                yield {
+                    'date': org.closure_date.strftime('%Y-%m-%d'),
+                    'successor_org': self,
+                    'predecessor_org': org,
+                }
+        else:
+            predecessors_by_date = defaultdict(list)
+            for org in predecessors:
+                key = org.closure_date.strftime('%Y-%m-%d')
+                predecessors_by_date[key].append(org)
+            for merge_date, orgs in predecessors_by_date.items():
+                yield {
+                    'date': merge_date,
+                    'successor_org': self,
+                    'predecessor_orgs': orgs,
+                }
 
         if include_predecessor_history:
             for org in predecessors:
                 for item in org.get_merge_history(
                     include_successor=False,
-                    include_predecessor_history=True
+                    include_predecessor_history=True,
+                    group_by_date=group_by_date,
                 ):
                     yield item
