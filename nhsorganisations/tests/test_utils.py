@@ -8,4 +8,4 @@ class TestCreateMinimalOrganisations(TestCase):
 
     def test_creates_expected_number_of_orgs(self):
         create_minimal_organisations()
-        self.assertEqual(Organisation.objects.count(), 14)
+        self.assertEqual(Organisation.objects.count(), 18)
