@@ -14,7 +14,7 @@ branch_url = "%stree/stable/%s" % (base_url, stable_branch_name)
 
 # Testing dependencies
 testing_extras = [
-    'coverage>=3.7.0',
+    'coverage',
 ]
 
 setup(
