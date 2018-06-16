@@ -20,28 +20,29 @@ def make_parser():
 
 
 def parse_args(args=None):
-    return make_parser().parse_args(args)
+    return make_parser().parse_known_args(args)
 
 
 def runtests():
-    args = parse_args()
+    parsed_args, unparsed_args = parse_args()
 
-    if args.deprecation == 'all':
+    this_project_only = r'^nhsorganisations(\.|$)'
+    if parsed_args.deprecation == 'all':
         # Show all deprecation warnings from all packages
         warnings.simplefilter('default', category=DeprecationWarning)
         warnings.simplefilter('default', category=PendingDeprecationWarning)
-    elif args.deprecation == 'pending':
+    elif parsed_args.deprecation == 'pending':
         # Show all deprecation warnings
-        warnings.filterwarnings('default', category=DeprecationWarning)
-        warnings.filterwarnings('default', category=PendingDeprecationWarning)
-    elif args.deprecation == 'imminent':
+        warnings.filterwarnings('default', category=DeprecationWarning, module=this_project_only)
+        warnings.filterwarnings('default', category=PendingDeprecationWarning, module=this_project_only)
+    elif parsed_args.deprecation == 'imminent':
         # Show only imminent deprecation warnings
-        warnings.filterwarnings('default', category=DeprecationWarning)
-    elif args.deprecation == 'none':
-        # Deprecation warnings are ignored by default
+        warnings.filterwarnings('default', category=DeprecationWarning, module=this_project_only)
+    elif parsed_args.deprecation == 'none':
+        # Do not show deprecation warnings
         pass
 
-    argv = [sys.argv[0], 'test']
+    argv = [sys.argv[0], 'test'] + unparsed_args
     return execute_from_command_line(argv)
 
 if __name__ == '__main__':
