@@ -17,6 +17,14 @@ class OrganisationQuerySet(QuerySet):
     def closed(self):
         return self.exclude(self.open_q(until_datetime=timezone.now()))
 
+    def annotate_with_is_closed(self):
+        return self.annotate(is_closed=Case(
+            When(closure_date__isnull=True, then=0),
+            When(closure_date__gt=timezone.now(), then=0),
+            default=1,
+            output_field=IntegerField()
+        ))
+
     def of_type_q(self, organisation_type):
         valid_type_vals = tuple(ch[0] for ch in self.model.TYPE_CHOICES)
         if organisation_type not in valid_type_vals:
@@ -70,11 +78,7 @@ class OrganisationQuerySet(QuerySet):
         if group_by_type:
             group_by_field_name = 'organisation_type'
 
-        queryset = self.all().annotate(is_closed=Case(
-            When(closure_date__isnull=True, then=0),
-            default=1,
-            output_field=IntegerField()
-        ))
+        queryset = self.all().annotate_with_is_closed()
         if ordering:
             queryset = queryset.order_by(*ordering)
 
