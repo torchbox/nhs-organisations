@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from .query import OrganisationQuerySet
@@ -86,6 +87,12 @@ class Organisation(models.Model):
 
     def __str__(self):
         return '{name} ({code})'.format(name=self.name, code=self.code)
+
+    def is_closed(self):
+        return self.closure_date and self.closure_date <= timezone.now()
+
+    def is_merged(self):
+        return self.is_closed() and self.successor_id
 
     def get_merge_history(
         self, include_successor=True, group_by_date=True, for_date=None,
