@@ -17,6 +17,9 @@ class OrganisationQuerySet(QuerySet):
     def closed(self):
         return self.exclude(self.open_q(until_datetime=timezone.now()))
 
+    def merged(self):
+        return self.closed().filter(successor_id__isnull=False)
+
     def annotate_with_is_closed(self):
         return self.annotate(is_closed=Case(
             When(closure_date__isnull=True, then=0),
