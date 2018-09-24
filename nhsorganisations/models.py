@@ -14,12 +14,25 @@ class Organisation(models.Model):
     TYPE_INDEPENDENT_PROVIDER = 'independent-provider'
     TYPE_COMMISSIONER = 'commissioner'
     TYPE_ALB = 'alb'
+    TYPE_LOCAL_AUTHORITY = 'local-authority'
+    TYPE_PATHOLOGY_JV = 'pathology-jv'
     TYPE_OTHER = 'other'
+    TYPES = (
+        TYPE_PROVIDER,
+        TYPE_INDEPENDENT_PROVIDER,
+        TYPE_COMMISSIONER,
+        TYPE_ALB,
+        TYPE_LOCAL_AUTHORITY,
+        TYPE_PATHOLOGY_JV,
+        TYPE_OTHER,
+    )
     TYPE_CHOICES = (
         (TYPE_PROVIDER, _('Provider')),
         (TYPE_COMMISSIONER, _('Commissioner')),
         (TYPE_ALB, _("Arm's Length Body (ALB)")),
         (TYPE_INDEPENDENT_PROVIDER, _('Independent Provider')),
+        (TYPE_LOCAL_AUTHORITY, _('Local Authority')),
+        (TYPE_PATHOLOGY_JV, _('Pathology Joint Venture')),
         (TYPE_OTHER, _('Other')),
     )
     TYPE_CHOICES_PLURALISED = (
@@ -27,6 +40,8 @@ class Organisation(models.Model):
         (TYPE_COMMISSIONER, _('Commissioners')),
         (TYPE_ALB, _("Arm's Length Bodies")),
         (TYPE_INDEPENDENT_PROVIDER, _('Independent Providers')),
+        (TYPE_LOCAL_AUTHORITY, _('Local Authorities')),
+        (TYPE_PATHOLOGY_JV, _('Pathology Joint Ventures')),
         (TYPE_OTHER, _('Other')),
     )
 

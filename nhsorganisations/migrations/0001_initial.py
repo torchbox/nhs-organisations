@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('code', models.CharField(db_index=True, max_length=20, unique=True)),
                 ('name', models.CharField(max_length=255)),
-                ('organisation_type', models.CharField(choices=[('provider', 'Provider'), ('commissioner', 'Commissioner'), ('alb', "Arm's Length Body (ALB)"), ('independent-provider', 'Independent Provider'), ('other', 'Other')], db_index=True, default='other', max_length=25, verbose_name='organisation type')),
+                ('organisation_type', models.CharField(choices=[('provider', 'Provider'), ('commissioner', 'Commissioner'), ('alb', "Arm's Length Body (ALB)"), ('independent-provider', 'Independent Provider'), ('local-authority', 'Local Authority'), ('pathology-jv', 'Pathology Joint Venture'), ('other', 'Other')], db_index=True, default='other', max_length=25, verbose_name='organisation type')),
                 ('region', models.CharField(blank=True, choices=[('', 'None'), ('Y54', 'North of England'), ('Y55', 'Midlands and East of England'), ('Y56', 'London'), ('Y57', 'South East'), ('Y58', 'South West')], db_index=True, max_length=3)),
                 ('closure_date', models.DateTimeField(blank=True, null=True)),
                 ('created_at', models.DateTimeField(editable=False)),
