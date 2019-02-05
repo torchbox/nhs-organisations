@@ -35,19 +35,15 @@ Installation
         python manage.py migrate nhsorganisations
 
 
-4. Populate data from the included fixture:
+4. Populate data by pulling from the NHSI website:
 
     .. code-block:: console
 
-        python manage.py loaddata organisations.json
+        python manage.py pull_organisations_from_nhsi_site
 
 
 Keeping your local data up-to-date
 ==================================
-
-The latest version of the app will always include an up-to-date ``organisation.json`` fixture, which will be complete and correct at the time that version is released. But, fixtures are only any good for populating databases from scratch (HINT: great for use in tests!).
-
-Once you're using organisation data in your project, you need a different mechanism to keep that data up-to-date. 
 
 Currently, the NHS Improvement Corporate Website is the closest thing we have to a 'source of truth', and the only place we know of that serves the data in a way that can be easily consumed by other apps (as JSON, at the URL: https://improvement.nhs.uk/organisations.json)
 
