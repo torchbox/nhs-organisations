@@ -6,6 +6,22 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
 
+class RegionQuerySet(QuerySet):
+
+    def active(self):
+        return self.filter(is_active=True)
+
+    def in_use(self):
+        from .models import Organisation
+        return self.filter(id__in=Organisation.objects.values_list('region_new_id', flat=True))
+
+    def as_choices(self, add_blank_choice=False, blank_choice_label='---'):
+        result = list(self.values_list('id', 'name'))
+        if add_blank_choice:
+            result.insert(0, (None, blank_choice_label))
+        return result
+
+
 class OrganisationQuerySet(QuerySet):
 
     def open_q(self, until_datetime):

@@ -5,7 +5,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from .query import OrganisationQuerySet
+from .query import OrganisationQuerySet, RegionQuerySet
 
 
 class Region(models.Model):
@@ -31,6 +31,8 @@ class Region(models.Model):
         blank=True,
         related_name="successors"
     )
+
+    objects = RegionQuerySet.as_manager()
 
     class Meta:
         verbose_name = _('region')
