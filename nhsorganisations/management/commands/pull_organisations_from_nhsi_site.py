@@ -136,7 +136,7 @@ class Command(BaseCommand):
                 region_new = self.regions_by_id.get(region_details['id'])
             except KeyError:
                 region_new = self.regions_by_code.get(region_details['code'])
-            region = ''
+            region = region_new.code
         else:
             region_new = None
             region = ''
