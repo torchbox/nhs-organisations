@@ -91,13 +91,16 @@ class OrganisationQuerySet(QuerySet):
         closed_string=" (Closed)", alternative_optgroup_labels=None,
         ordering=('is_closed', 'name')
     ):
+        from .models import Region
+
+        queryset = self.all().annotate_with_is_closed()
+
         group_by_field_name = None
         if group_by_region:
-            group_by_field_name = 'region'
+            group_by_field_name = 'region_new_id'
         if group_by_type:
             group_by_field_name = 'organisation_type'
 
-        queryset = self.all().annotate_with_is_closed()
         if ordering:
             queryset = queryset.order_by(*ordering)
 
@@ -105,8 +108,14 @@ class OrganisationQuerySet(QuerySet):
         if group_by_field_name:
             choices = defaultdict(list)
             if alternative_optgroup_labels is None:
-                f = self.model._meta.get_field(group_by_field_name)
-                optgroup_labels = f.choices
+                if group_by_field_name == 'region_new_id':
+                    optgroup_labels = Region.objects.in_use().as_choices(
+                        add_blank_choice=True,
+                        blank_choice_label='None',
+                    )
+                else:
+                    f = self.model._meta.get_field(group_by_field_name)
+                    optgroup_labels = f.choices
             else:
                 optgroup_labels = alternative_optgroup_labels
 
