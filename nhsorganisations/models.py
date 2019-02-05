@@ -147,6 +147,12 @@ class Organisation(models.Model):
     def __str__(self):
         return '{name} ({code})'.format(name=self.name, code=self.code)
 
+    def get_region_display(self):
+        try:
+            return self.region_new.name
+        except AttributeError:
+            return 'None'
+
     def is_closed(self):
         return self.closure_date and self.closure_date <= timezone.now()
 
