@@ -37,6 +37,9 @@ class Region(models.Model):
         verbose_name_plural = _('regions')
         ordering = ('name', )
 
+    def __str__(self):
+        return self.name
+
 
 class Organisation(models.Model):
     """An organisation operating as part of, or in partnership with, the NHS"""
