@@ -4,6 +4,7 @@ from django.db.models import Case, IntegerField, Q, QuerySet, When
 from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
 
 
 class RegionQuerySet(QuerySet):
@@ -111,7 +112,7 @@ class OrganisationQuerySet(QuerySet):
                 if group_by_field_name == 'region_new_id':
                     optgroup_labels = Region.objects.in_use().as_choices(
                         add_blank_choice=True,
-                        blank_choice_label='None',
+                        blank_choice_label=_('Non-Regional'),
                     )
                 else:
                     f = self.model._meta.get_field(group_by_field_name)
