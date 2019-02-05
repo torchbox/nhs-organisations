@@ -1,8 +1,9 @@
 from django.utils import timezone
-from ..models import Organisation
+from ..models import Organisation, Region
 
 
 def create_minimal_organisations(create_for_each_region=False):
+    regions_by_code = {obj.code: obj for obj in Region.objects.all()}
     org_details = (
         # --------------------------------------------------------------------
         # Some important ones
@@ -27,6 +28,7 @@ def create_minimal_organisations(create_for_each_region=False):
             code='RMC',
             name="Bolton NHS Foundation Trust",
             region=Organisation.REGION_NORTH_ENGLAND,
+            region_new=regions_by_code.get(Organisation.REGION_NORTH_ENGLAND),
             organisation_type=Organisation.TYPE_PROVIDER,
         ),
         dict(
@@ -34,6 +36,7 @@ def create_minimal_organisations(create_for_each_region=False):
             code='RGQ',
             name="Ipswich Hospital NHS Trust",
             region=Organisation.REGION_MIDLANDS_AND_EAST_ENGLAND,
+            region_new=regions_by_code.get(Organisation.REGION_MIDLANDS_AND_EAST_ENGLAND),
             organisation_type=Organisation.TYPE_PROVIDER,
         ),
         dict(
@@ -41,6 +44,7 @@ def create_minimal_organisations(create_for_each_region=False):
             code='R1H',
             name="Barts Health NHS Trust",
             region=Organisation.REGION_LONDON,
+            region_new=regions_by_code.get(Organisation.REGION_LONDON),
             organisation_type=Organisation.TYPE_PROVIDER,
         ),
         dict(
@@ -48,6 +52,7 @@ def create_minimal_organisations(create_for_each_region=False):
             code='RXQ',
             name="Buckinghamshire Healthcare NHS Trust",
             region=Organisation.REGION_SOUTH_EAST,
+            region_new=regions_by_code.get(Organisation.REGION_SOUTH_EAST),
             organisation_type=Organisation.TYPE_PROVIDER,
         ),
         dict(
@@ -55,6 +60,7 @@ def create_minimal_organisations(create_for_each_region=False):
             code='RK9',
             name="Plymouth Hospitals NHS Trust",
             region=Organisation.REGION_SOUTH_WEST,
+            region_new=regions_by_code.get(Organisation.REGION_SOUTH_WEST),
             organisation_type=Organisation.TYPE_PROVIDER,
         ),
         # --------------------------------------------------------------------
@@ -65,6 +71,7 @@ def create_minimal_organisations(create_for_each_region=False):
             code='RVN',
             name="Avon and Wiltshire Mental Health Partnership NHS Trust",
             region=Organisation.REGION_SOUTH_WEST,
+            region_new=regions_by_code.get(Organisation.REGION_SOUTH_WEST),
             organisation_type=Organisation.TYPE_PROVIDER,
             closure_date=timezone.now(),
         ),
@@ -76,6 +83,7 @@ def create_minimal_organisations(create_for_each_region=False):
             code='15E',
             name="NHS Birmingham and Solihull CCG",
             region=Organisation.REGION_MIDLANDS_AND_EAST_ENGLAND,
+            region_new=regions_by_code.get(Organisation.REGION_MIDLANDS_AND_EAST_ENGLAND),
             organisation_type=Organisation.TYPE_COMMISSIONER,
         ),
         dict(
@@ -83,6 +91,7 @@ def create_minimal_organisations(create_for_each_region=False):
             code='13P',
             name="NHS Birmingham CrossCity CCG",
             region=Organisation.REGION_MIDLANDS_AND_EAST_ENGLAND,
+            region_new=regions_by_code.get(Organisation.REGION_MIDLANDS_AND_EAST_ENGLAND),
             organisation_type=Organisation.TYPE_COMMISSIONER,
             closure_date=timezone.now(),
             successor_id=9,
@@ -92,6 +101,7 @@ def create_minimal_organisations(create_for_each_region=False):
             code='04X',
             name="NHS Birmingham South and Central CCG",
             region=Organisation.REGION_MIDLANDS_AND_EAST_ENGLAND,
+            region_new=regions_by_code.get(Organisation.REGION_MIDLANDS_AND_EAST_ENGLAND),
             organisation_type=Organisation.TYPE_COMMISSIONER,
             closure_date=timezone.now(),
             successor_id=9,
@@ -101,6 +111,7 @@ def create_minimal_organisations(create_for_each_region=False):
             code='05P',
             name="NHS Solihull CCG",
             region=Organisation.REGION_MIDLANDS_AND_EAST_ENGLAND,
+            region_new=regions_by_code.get(Organisation.REGION_MIDLANDS_AND_EAST_ENGLAND),
             organisation_type=Organisation.TYPE_COMMISSIONER,
             closure_date=timezone.now(),
             successor_id=9,
@@ -113,6 +124,7 @@ def create_minimal_organisations(create_for_each_region=False):
             code='03F',
             name="NHS Hull CCG",
             region=Organisation.REGION_NORTH_ENGLAND,
+            region_new=regions_by_code.get(Organisation.REGION_NORTH_ENGLAND),
             organisation_type=Organisation.TYPE_COMMISSIONER,
         ),
         dict(
@@ -120,6 +132,7 @@ def create_minimal_organisations(create_for_each_region=False):
             code='08A',
             name="NHS Greenwich CCG",
             region=Organisation.REGION_LONDON,
+            region_new=regions_by_code.get(Organisation.REGION_LONDON),
             organisation_type=Organisation.TYPE_COMMISSIONER,
         ),
         dict(
@@ -127,6 +140,7 @@ def create_minimal_organisations(create_for_each_region=False):
             code='10Q',
             name="NHS Oxfordshire CCG",
             region=Organisation.REGION_SOUTH_EAST,
+            region_new=regions_by_code.get(Organisation.REGION_SOUTH_EAST),
             organisation_type=Organisation.TYPE_COMMISSIONER,
         ),
         dict(
@@ -134,6 +148,7 @@ def create_minimal_organisations(create_for_each_region=False):
             code='15C',
             name="NHS Bristol, North Somerset and South Gloucestershire CCG",
             region=Organisation.REGION_SOUTH_WEST,
+            region_new=regions_by_code.get(Organisation.REGION_SOUTH_WEST),
             organisation_type=Organisation.TYPE_COMMISSIONER,
         ),
         # --------------------------------------------------------------------
