@@ -123,7 +123,8 @@ class Organisation(models.Model):
         verbose_name=_('region'),
         blank=True,
         null=True,
-        related_name='organisations'
+        related_name='organisations',
+        on_delete=models.SET_NULL,
     )
     closure_date = models.DateTimeField(null=True, blank=True)
     successor = models.ForeignKey(
