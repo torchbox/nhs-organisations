@@ -66,13 +66,13 @@ class Command(BaseCommand):
 
         print('Setting region predecessor values...')
         for r in region_list:
-            region = self.regions_by_id[r['id']]
+            obj = self.regions_by_id[r['id']]
             predecessor_regions = [
                 self.regions_by_id[pid] for pid in r['predecessor_ids']
                 if pid in self.regions_by_id
             ]
-            print('Setting predecessors for %r to:\n%r' % (region, predecessor_regions))
-            region.predecessors.set(predecessor_regions)
+            print('Setting predecessors for %r to:\n%r' % (obj, predecessor_regions))
+            obj.predecessors.set(predecessor_regions)
 
         print('Done!\n\n')
 
