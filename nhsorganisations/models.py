@@ -113,6 +113,13 @@ class Organisation(models.Model):
         blank=True,
         choices=REGION_CHOICES,
     )
+    region_new = models.ForeignKey(
+        Region,
+        verbose_name=_('region'),
+        blank=True,
+        null=True,
+        related_name='organisations'
+    )
     closure_date = models.DateTimeField(null=True, blank=True)
     successor = models.ForeignKey(
         'self',
