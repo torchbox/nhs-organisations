@@ -117,6 +117,14 @@ class OrganisationQuerySet(QuerySet):
         group_by_field_name = None
         if group_by_region:
             group_by_field_name = 'region_new_id'
+            if alternative_optgroup_labels:
+                try:
+                    example_val = alternative_optgroup_labels[0][0] or alternative_optgroup_labels[1][0]
+                    if len(example_val) <= 20:
+                        group_by_field_name = 'region'
+                except KeyError:
+                    pass
+
         if group_by_type:
             group_by_field_name = 'organisation_type'
 
