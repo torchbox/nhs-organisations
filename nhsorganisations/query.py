@@ -70,6 +70,16 @@ class OrganisationQuerySet(QuerySet):
             return self.exclude(region__exact=regions[0])
         return self.exclude(region__in=regions)
 
+    def for_regions_new(self, *regions):
+        if len(regions) == 1:
+            return self.filter(region_new_id=regions[0].id)
+        return self.filter(region_new_id__in=set(r.id for r in regions))
+
+    def not_for_regions_new(self, *regions):
+        if len(regions) == 1:
+            return self.exclude(region_new_id=regions[0].id)
+        return self.exclude(region_new_id__in=set(r.id for r in regions))
+
     @staticmethod
     def choice_label_for_obj(format_string, obj, mark_closed, closed_string):
         label = format_html(
