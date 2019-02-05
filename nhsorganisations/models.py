@@ -1,3 +1,4 @@
+import uuid
 from collections import defaultdict
 
 from django.db import models
@@ -5,6 +6,36 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from .query import OrganisationQuerySet
+
+
+class Region(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(
+        verbose_name=_('name'),
+        help_text=_('e.g. "South West"'),
+        max_length=100,
+    )
+    code = models.CharField(
+        verbose_name=_('ODS code'),
+        help_text=_('e.g. "Y58"'),
+        max_length=20,
+        unique=True,
+    )
+    is_active = models.BooleanField(
+        verbose_name=_('is active'),
+        db_index=True,
+        default=True,
+    )
+    predecessors = models.ManyToManyField(
+        'self',
+        blank=True,
+        related_name="successors"
+    )
+
+    class Meta:
+        verbose_name = _('region')
+        verbose_name_plural = _('regions')
+        ordering = ('name', )
 
 
 class Organisation(models.Model):
