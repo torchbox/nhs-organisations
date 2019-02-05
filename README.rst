@@ -45,7 +45,7 @@ Installation
 Keeping your local data up-to-date
 ==================================
 
-The latest version of the app will always include an up-to-date ``nhs_organisation.json`` fixture, which will be complete and correct at the time that version is released. But, fixtures are only any good for populating databases from scratch (HINT: great for use in tests!).
+The latest version of the app will always include an up-to-date ``organisation.json`` fixture, which will be complete and correct at the time that version is released. But, fixtures are only any good for populating databases from scratch (HINT: great for use in tests!).
 
 Once you're using organisation data in your project, you need a different mechanism to keep that data up-to-date. 
 
