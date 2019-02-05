@@ -1,3 +1,4 @@
+from uuid import UUID
 from collections import defaultdict
 
 from django.db.models import Case, IntegerField, Q, QuerySet, When
@@ -60,25 +61,32 @@ class OrganisationQuerySet(QuerySet):
     def not_of_type(self, organisation_type):
         return self.exclude(self.of_type_q(organisation_type))
 
-    def for_regions(self, *regions):
-        if len(regions) == 1:
-            return self.filter(region__exact=regions[0])
-        return self.filter(region__in=regions)
+    def for_regions_q(self, *region_vals):
+        from .models import Region
 
-    def not_for_regions(self, *regions):
-        if len(regions) == 1:
-            return self.exclude(region__exact=regions[0])
-        return self.exclude(region__in=regions)
+        region_ids = set()
+        region_codes = set()
+        for val in region_vals:
+            if isinstance(val, Region):
+                region_ids.add(val.id)
+            elif isinstance(val, UUID):
+                region_ids.add(val)
+            elif isinstance(val, str):
+                if len(val) <= 20:
+                    region_codes.add(val)
+                else:
+                    region_ids.add(UUID(val, version=4))
 
-    def for_regions_new(self, *regions):
-        if len(regions) == 1:
-            return self.filter(region_new_id=regions[0].id)
-        return self.filter(region_new_id__in=set(r.id for r in regions))
+        q = Q(region_new_id__in=region_ids)
+        if region_codes:
+            q |= Q(region_new__code__in=region_codes)
+        return q
 
-    def not_for_regions_new(self, *regions):
-        if len(regions) == 1:
-            return self.exclude(region_new_id=regions[0].id)
-        return self.exclude(region_new_id__in=set(r.id for r in regions))
+    def for_regions(self, *region_vals):
+        return self.filter(self.for_regions_q(*region_vals))
+
+    def not_for_regions(self, *region_vals):
+        return self.exclude(self.for_regions_q(*region_vals))
 
     @staticmethod
     def choice_label_for_obj(format_string, obj, mark_closed, closed_string):
