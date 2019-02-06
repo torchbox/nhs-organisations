@@ -112,13 +112,7 @@ class Organisation(models.Model):
         choices=TYPE_CHOICES,
         default=TYPE_OTHER,
     )
-    region = models.CharField(
-        db_index=True,
-        max_length=3,
-        blank=True,
-        choices=REGION_CHOICES,
-    )
-    region_new = models.ForeignKey(
+    region = models.ForeignKey(
         Region,
         verbose_name=_('region'),
         blank=True,
