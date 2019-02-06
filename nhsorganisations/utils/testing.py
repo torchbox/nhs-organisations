@@ -2,7 +2,7 @@ from django.utils import timezone
 from ..models import Organisation, Region
 
 
-def get_common_region_codes():
+def get_common_region_ids():
     return {
         'NORTH': 'ff5ce1d3-2d77-497b-b9e9-67c1d56f8dd9',
         'MIDLANDS_AND_EAST': '52a7f92a-343e-41f3-8ca2-2eb1d94d797b',
@@ -17,7 +17,7 @@ def get_common_regions():
     regions = Region.objects.mapped_by_id()
     return {
         label: regions[region_id]
-        for label, region_id in get_common_region_codes().items()
+        for label, region_id in get_common_region_ids().items()
     }
 
 
