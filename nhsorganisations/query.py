@@ -15,7 +15,7 @@ class RegionQuerySet(QuerySet):
 
     def in_use(self):
         from .models import Organisation
-        return self.filter(id__in=Organisation.objects.values_list('region_new_id', flat=True))
+        return self.filter(id__in=Organisation.objects.values_list('region_id', flat=True))
 
     def mapped_by_id(self):
         return {str(obj.id): obj for obj in self.all()}
@@ -80,9 +80,9 @@ class OrganisationQuerySet(QuerySet):
                 else:
                     region_ids.add(UUID(val, version=4))
 
-        q = Q(region_new_id__in=region_ids)
+        q = Q(region_id__in=region_ids)
         if region_codes:
-            q |= Q(region_new__code__in=region_codes)
+            q |= Q(region__code__in=region_codes)
         return q
 
     def for_regions(self, *region_vals):
@@ -119,15 +119,7 @@ class OrganisationQuerySet(QuerySet):
 
         group_by_field_name = None
         if group_by_region:
-            group_by_field_name = 'region_new_id'
-            if alternative_optgroup_labels:
-                try:
-                    example_val = alternative_optgroup_labels[0][0] or alternative_optgroup_labels[1][0]
-                    if len(example_val) <= 20:
-                        group_by_field_name = 'region'
-                except KeyError:
-                    pass
-
+            group_by_field_name = 'region_id'
         if group_by_type:
             group_by_field_name = 'organisation_type'
 
@@ -138,7 +130,7 @@ class OrganisationQuerySet(QuerySet):
         if group_by_field_name:
             choices = defaultdict(list)
             if alternative_optgroup_labels is None:
-                if group_by_field_name == 'region_new_id':
+                if group_by_field_name == 'region_id':
                     optgroup_labels = Region.objects.in_use().as_choices(
                         add_blank_choice=True,
                         blank_choice_label=_('Non-Regional'),

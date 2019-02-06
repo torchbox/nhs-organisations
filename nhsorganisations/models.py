@@ -121,9 +121,9 @@ class Organisation(models.Model):
 
     def get_region_display(self):
         try:
-            return self.region_new.name
+            return self.region.name
         except AttributeError:
-            return 'None'
+            return 'N/A'
 
     def is_closed(self):
         return self.closure_date and self.closure_date <= timezone.now()
