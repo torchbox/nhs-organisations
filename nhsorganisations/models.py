@@ -81,28 +81,6 @@ class Organisation(models.Model):
         (TYPE_OTHER, _('Other')),
     )
 
-    REGION_NORTH_ENGLAND = 'Y54'
-    REGION_MIDLANDS_AND_EAST_ENGLAND = 'Y55'
-    REGION_LONDON = 'Y56'
-    REGION_SOUTH_EAST = 'Y57'
-    REGION_SOUTH_WEST = 'Y58'
-    REGIONS = (
-        REGION_NORTH_ENGLAND,
-        REGION_MIDLANDS_AND_EAST_ENGLAND,
-        REGION_LONDON,
-        REGION_SOUTH_EAST,
-        REGION_SOUTH_WEST,
-    )
-    REGION_CHOICES_NO_BLANK = (
-        (REGION_NORTH_ENGLAND, _('North of England')),
-        (REGION_MIDLANDS_AND_EAST_ENGLAND, _('Midlands and East of England')),
-        (REGION_LONDON, _('London')),
-        (REGION_SOUTH_EAST, _('South East')),
-        (REGION_SOUTH_WEST, _('South West')),
-    )
-    REGION_CHOICES = (('', _('None')),) + REGION_CHOICES_NO_BLANK
-    REGION_CHOICES_OPTGROUPS = (('', _('Non-Regional')),) + REGION_CHOICES_NO_BLANK
-
     code = models.CharField(max_length=20, unique=True, db_index=True)
     name = models.CharField(max_length=255)
     organisation_type = models.CharField(
