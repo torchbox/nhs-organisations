@@ -20,10 +20,10 @@ class RegionQuerySet(QuerySet):
     def mapped_by_id(self):
         return {str(obj.id): obj for obj in self.all()}
 
-    def as_choices(self, add_blank_choice=False, blank_choice_label='---'):
+    def as_choices(self, blank_choice_label=None, blank_choice_value=''):
         result = list(self.values_list('id', 'name'))
-        if add_blank_choice:
-            result.insert(0, (None, blank_choice_label))
+        if blank_choice_label is not None:
+            result.insert(0, (blank_choice_value, blank_choice_label))
         return result
 
 
@@ -132,8 +132,8 @@ class OrganisationQuerySet(QuerySet):
             if alternative_optgroup_labels is None:
                 if group_by_field_name == 'region_id':
                     optgroup_labels = Region.objects.in_use().as_choices(
-                        add_blank_choice=True,
                         blank_choice_label=_('Non-Regional'),
+                        blank_choice_value=None,
                     )
                 else:
                     f = self.model._meta.get_field(group_by_field_name)
