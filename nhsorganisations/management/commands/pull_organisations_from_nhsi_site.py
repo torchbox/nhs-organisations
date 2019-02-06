@@ -31,7 +31,6 @@ class Command(BaseCommand):
 
     def refresh_region_data(self, **kwargs):
         self.regions_by_id = {}
-        self.regions_by_code = {}
 
         print('Fetching region data...')
         try:
@@ -40,9 +39,7 @@ class Command(BaseCommand):
         except requests.HTTPError as e:
             if e.response.status_code == 404:
                 print("regions.json is not live yet, so skipping for now\n\n")
-                for obj in Region.objects.all():
-                    self.regions_by_id[obj.id] = obj
-                    self.regions_by_code[obj.code] = obj
+                self.regions_by_id = Region.objects.mapped_by_id()
                 return
             raise e
 
@@ -58,7 +55,6 @@ class Command(BaseCommand):
                 ),
             )
             self.regions_by_id[str(obj.id)] = obj
-            self.regions_by_code[obj.code] = obj
             if created:
                 print("Added new region: %r" % obj)
             else:
@@ -132,20 +128,29 @@ class Command(BaseCommand):
 
         region_details = org_details.pop('region', None)
         if region_details:
-            try:
-                region_new = self.regions_by_id.get(region_details['id'])
-            except KeyError:
-                region_new = self.regions_by_code.get(region_details['code'])
-            region = region_new.code
+            region = None
+            if 'id' in region_details:
+                region_id = region_details['id']
+                region = self.regions_by_id.get(region_id)
+            else:
+                region_code = region_details['code']
+                for r in self.regions_by_id.values():
+                    if r.code == region_code:
+                        region = r
+                        break
+            if region is None:
+                raise ValueError(
+                    "The region data for '{}' ({}) did not match up to a "
+                    "region object. Please try running the command again."
+                    .format(org_details['name'], org_details['code'])
+                )
         else:
-            region_new = None
-            region = ''
+            region = None
 
         return {
             'name': org_details['name'],
             'organisation_type': org_details['organisation_type']['code'],
             'region': region,
-            'region_new': region_new,
             'closure_date': org_details['closure_date'],
             'created_at': org_details['created_at'],
             'last_updated_at': org_details['last_updated_at'],

@@ -17,6 +17,9 @@ class RegionQuerySet(QuerySet):
         from .models import Organisation
         return self.filter(id__in=Organisation.objects.values_list('region_new_id', flat=True))
 
+    def mapped_by_id(self):
+        return {str(obj.id): obj for obj in self.all()}
+
     def as_choices(self, add_blank_choice=False, blank_choice_label='---'):
         result = list(self.values_list('id', 'name'))
         if add_blank_choice:
