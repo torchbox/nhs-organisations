@@ -52,6 +52,9 @@ class Organisation(models.Model):
     TYPE_ALB = 'alb'
     TYPE_LOCAL_AUTHORITY = 'local-authority'
     TYPE_PATHOLOGY_JV = 'pathology-jv'
+    TYPE_GP = 'gp-practise'
+    TYPE_DENTIST = 'dentist'
+    TYPE_PHARMACY = 'pharmacy'
     TYPE_OTHER = 'other'
     TYPES = (
         TYPE_PROVIDER,
@@ -60,6 +63,9 @@ class Organisation(models.Model):
         TYPE_ALB,
         TYPE_LOCAL_AUTHORITY,
         TYPE_PATHOLOGY_JV,
+        TYPE_GP,
+        TYPE_DENTIST,
+        TYPE_PHARMACY,
         TYPE_OTHER,
     )
     TYPE_CHOICES = (
@@ -69,6 +75,9 @@ class Organisation(models.Model):
         (TYPE_INDEPENDENT_PROVIDER, _('Independent Provider')),
         (TYPE_LOCAL_AUTHORITY, _('Local Authority')),
         (TYPE_PATHOLOGY_JV, _('Pathology Joint Venture')),
+        (TYPE_GP, _('GP Practise')),
+        (TYPE_DENTIST, _('Dentist')),
+        (TYPE_PHARMACY, _('Pharmacy')),
         (TYPE_OTHER, _('Other')),
     )
     TYPE_CHOICES_PLURALISED = (
@@ -78,6 +87,9 @@ class Organisation(models.Model):
         (TYPE_INDEPENDENT_PROVIDER, _('Independent Providers')),
         (TYPE_LOCAL_AUTHORITY, _('Local Authorities')),
         (TYPE_PATHOLOGY_JV, _('Pathology Joint Ventures')),
+        (TYPE_GP, _('GP Practises')),
+        (TYPE_DENTIST, _('Dentists')),
+        (TYPE_PHARMACY, _('Pharmacies')),
         (TYPE_OTHER, _('Other')),
     )
 
