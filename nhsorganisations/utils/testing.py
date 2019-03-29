@@ -4,12 +4,14 @@ from ..models import Organisation, Region
 
 def get_common_region_ids():
     return {
-        'NORTH': 'ff5ce1d3-2d77-497b-b9e9-67c1d56f8dd9',
-        'MIDLANDS_AND_EAST': '52a7f92a-343e-41f3-8ca2-2eb1d94d797b',
+        'NORTH_EAST': 'ff5ce1d3-2d77-497b-b9e9-67c1d56f8dd9',
+        'NORTH_WEST': 'adac8ebf-44c2-44c0-830f-d3bfe83df699',
+        'EAST': 'e5ffa9cb-e123-4d7e-8c0d-8ab333ca154c',
         'LONDON': '358dab2d-c8ed-4a6a-91a0-e41d57a2f008',
         'SOUTH_EAST': 'aa8e1862-6071-4a67-857c-9bf1601d4ef4',
         'SOUTH_WEST': 'ab827d39-7da9-4aba-aa64-dc4aefc94b37',
         'WALES': '179a0109-469d-4d7c-a67d-e3cc0052ba93',
+        'MIDLANDS': '3c30900c-18f6-4122-971d-f0190f3e11a5',
     }
 
 
@@ -47,14 +49,14 @@ def create_minimal_organisations(create_for_each_region=False):
             id=3,
             code='RMC',
             name="Bolton NHS Foundation Trust",
-            region=regions['NORTH'],
+            region=regions['NORTH_WEST'],
             organisation_type=Organisation.TYPE_PROVIDER,
         ),
         dict(
             id=4,
             code='RGQ',
             name="Ipswich Hospital NHS Trust",
-            region=regions['MIDLANDS_AND_EAST'],
+            region=regions['EAST'],
             organisation_type=Organisation.TYPE_PROVIDER,
         ),
         dict(
@@ -96,14 +98,14 @@ def create_minimal_organisations(create_for_each_region=False):
             id=9,
             code='15E',
             name="NHS Birmingham and Solihull CCG",
-            region=regions['MIDLANDS_AND_EAST'],
+            region=regions['MIDLANDS'],
             organisation_type=Organisation.TYPE_COMMISSIONER,
         ),
         dict(
             id=10,
             code='13P',
             name="NHS Birmingham CrossCity CCG",
-            region=regions['MIDLANDS_AND_EAST'],
+            region=regions['MIDLANDS'],
             organisation_type=Organisation.TYPE_COMMISSIONER,
             closure_date=timezone.now(),
             successor_id=9,
@@ -112,7 +114,7 @@ def create_minimal_organisations(create_for_each_region=False):
             id=11,
             code='04X',
             name="NHS Birmingham South and Central CCG",
-            region=regions['MIDLANDS_AND_EAST'],
+            region=regions['MIDLANDS'],
             organisation_type=Organisation.TYPE_COMMISSIONER,
             closure_date=timezone.now(),
             successor_id=9,
@@ -121,7 +123,7 @@ def create_minimal_organisations(create_for_each_region=False):
             id=12,
             code='05P',
             name="NHS Solihull CCG",
-            region=regions['MIDLANDS_AND_EAST'],
+            region=regions['MIDLANDS'],
             organisation_type=Organisation.TYPE_COMMISSIONER,
             closure_date=timezone.now(),
             successor_id=9,
@@ -133,7 +135,7 @@ def create_minimal_organisations(create_for_each_region=False):
             id=13,
             code='03F',
             name="NHS Hull CCG",
-            region=regions['NORTH'],
+            region=regions['NORTH_EAST'],
             organisation_type=Organisation.TYPE_COMMISSIONER,
         ),
         dict(
