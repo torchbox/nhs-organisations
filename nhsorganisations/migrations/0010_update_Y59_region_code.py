@@ -5,7 +5,7 @@ from django.db import migrations
 
 
 def migrate_forwards(apps, schema_editor):
-    Region = apps.get_model("organisations", "Region")
+    Region = apps.get_model("nhsorganisations", "Region")
 
     south_west_region = Region.objects.get(code="Y57")
     south_west_region.code = "Y59"
@@ -13,7 +13,7 @@ def migrate_forwards(apps, schema_editor):
 
 
 def migrate_backwards(apps, schema_editor):
-    Region = apps.get_model("organisations", "Region")
+    Region = apps.get_model("nhsorganisations", "Region")
 
     south_west_region = Region.objects.get(code="Y59")
     south_west_region.code = "Y57"
