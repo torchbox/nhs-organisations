@@ -8,25 +8,25 @@ REGIONS = (
         id='3c30900c-18f6-4122-971d-f0190f3e11a5',
         code="Y60",
         name="Midlands",
-        predecessor_ids=["52a7f92a343e41f38ca22eb1d94d797b"],
+        predecessor_ids=["52a7f92a-343e-41f3-8ca2-2eb1d94d797b"],
     ),
     dict(
         id='e5ffa9cb-e123-4d7e-8c0d-8ab333ca154c',
         code="Y61",
         name="East of England",
-        predecessor_ids=["52a7f92a343e41f38ca22eb1d94d797b"],
+        predecessor_ids=["52a7f92a-343e-41f3-8ca2-2eb1d94d797b"],
     ),
     dict(
         id='adac8ebf-44c2-44c0-830f-d3bfe83df699',
         code="Y62",
         name="North West",
-        predecessor_ids=["ff5ce1d32d77497bb9e967c1d56f8dd9"],
+        predecessor_ids=["ff5ce1d3-2d77-497b-b9e9-67c1d56f8dd9"],
     ),
     dict(
         id='ff30de4d-4f25-4a7d-82d9-43580aab3122',
         code="Y63",
         name="North East and Yorkshire",
-        predecessor_ids=["ff5ce1d32d77497bb9e967c1d56f8dd9"],
+        predecessor_ids=["ff5ce1d3-2d77-497b-b9e9-67c1d56f8dd9"],
     ),
 )
 
@@ -39,6 +39,11 @@ def migrate_forwards(apps, schema_editor):
         obj = Region.objects.create(**details)
         regions_by_pk[obj.pk] = obj
         print('debug')
+        for r in Region.objects.all():
+            print(r.name)
+            print(r.id)
+        print("regions_by_pk")
+        print(regions_by_pk)
         for pid in predecessor_ids:
             print("pid")
             print(pid)
