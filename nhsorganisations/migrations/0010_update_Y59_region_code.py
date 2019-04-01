@@ -22,7 +22,7 @@ def migrate_backwards(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('organisations', '0009_rename_region_new_to_region'),
+        ('nhsorganisations', '0009_rename_region_new_to_region'),
     ]
 
     operations = [
