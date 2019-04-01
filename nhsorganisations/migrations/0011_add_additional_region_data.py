@@ -33,20 +33,12 @@ REGIONS = (
 
 def migrate_forwards(apps, schema_editor):
     Region = apps.get_model("nhsorganisations", "Region")
-    regions_by_pk = {}
+    regions_by_pk = {str(r.id): r for r in Region.objects.all()}
     for details in REGIONS:
         predecessor_ids = details.pop('predecessor_ids', [])
         obj = Region.objects.create(**details)
         regions_by_pk[obj.pk] = obj
-        print('debug')
-        for r in Region.objects.all():
-            print(r.name)
-            print(r.id)
-        print("regions_by_pk")
-        print(regions_by_pk)
         for pid in predecessor_ids:
-            print("pid")
-            print(pid)
             obj.predecessors.add(regions_by_pk[pid])
 
 
