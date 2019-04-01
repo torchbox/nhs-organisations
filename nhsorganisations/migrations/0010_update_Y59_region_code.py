@@ -7,18 +7,22 @@ from django.db import migrations
 def migrate_forwards(apps, schema_editor):
     Region = apps.get_model("nhsorganisations", "Region")
 
-    south_west_region = Region.objects.get(code="Y57")
-    south_west_region.code = "Y59"
-    south_west_region.save()
-
+    try:
+        south_west_region = Region.objects.get(code="Y57")
+        south_west_region.code = "Y59"
+        south_west_region.save()
+    except Region.DoesNotExist:
+        pass
 
 def migrate_backwards(apps, schema_editor):
     Region = apps.get_model("nhsorganisations", "Region")
 
-    south_west_region = Region.objects.get(code="Y59")
-    south_west_region.code = "Y57"
-    south_west_region.save()
-
+    try:
+        south_west_region = Region.objects.get(code="Y59")
+        south_west_region.code = "Y57"
+        south_west_region.save()
+    except Region.DoesNotExist:
+        pass
 
 class Migration(migrations.Migration):
     dependencies = [
