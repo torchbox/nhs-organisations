@@ -1,3 +1,4 @@
+import os
 import requests
 
 from django.core.management.base import BaseCommand
@@ -5,8 +6,8 @@ from django.db import transaction
 
 from ...models import Organisation, Region
 
-_REGIONS_URL = 'https://improvement.nhs.uk/regions.json/'
-_URL = 'https://improvement.nhs.uk/organisations.json'
+_REGIONS_URL = os.getenv('NHSI_SITE_REGIONS_URL', 'https://improvement.nhs.uk/regions.json/')
+_URL = os.getenv('NHSI_SITE_ORGS_URL', 'https://improvement.nhs.uk/organisations.json')
 
 
 class Command(BaseCommand):
