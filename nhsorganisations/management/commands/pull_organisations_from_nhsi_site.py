@@ -9,6 +9,10 @@ from ...models import Organisation, Region
 _REGIONS_URL = os.getenv('NHSI_SITE_REGIONS_URL', 'https://improvement.nhs.uk/regions.json/')
 _URL = os.getenv('NHSI_SITE_ORGS_URL', 'https://improvement.nhs.uk/organisations.json')
 
+USER_AUTH_BASIC = os.getenv('NHSI_USER_AUTH_BASIC', '')
+PASSWORD_AUTH_BASIC = os.getenv('NHSI_PASSWORD_AUTH_BASIC', '')
+_AUTH_BASIC = (USER_AUTH_BASIC, PASSWORD_AUTH_BASIC) if USER_AUTH_BASIC else None
+
 
 class Command(BaseCommand):
     help = (
@@ -35,7 +39,7 @@ class Command(BaseCommand):
 
         print('Fetching region data...')
         try:
-            response = requests.get(_REGIONS_URL)
+            response = requests.get(_REGIONS_URL, auth=_AUTH_BASIC)
             response.raise_for_status()
         except requests.HTTPError as e:
             if e.response.status_code == 404:
@@ -75,7 +79,7 @@ class Command(BaseCommand):
 
     def refresh_organisation_data(self, **kwargs):
         print('Fetching organisation data...')
-        response = requests.get(_URL)
+        response = requests.get(_URL, auth=_AUTH_BASIC)
         response.raise_for_status()
 
         existing_orgs = Organisation.objects.as_dict(keyed_by='code')
