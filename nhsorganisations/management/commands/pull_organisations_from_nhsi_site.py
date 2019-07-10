@@ -112,19 +112,20 @@ class Command(BaseCommand):
         response = requests.get(_URL, auth=_AUTH_BASIC)
         response.raise_for_status()
 
-        if self.only_orgs_for_dcf:
-            existing_orgs = Organisation.objects.filter(
-                organisation_type__in=DCF_ORG_TYPES).as_dict(keyed_by='code')
-        elif self.only_orgs_for_pp:
-            existing_orgs = Organisation.objects.filter(
-                organisation_type__in=PP_ORG_TYPES).as_dict(keyed_by='code')
-        else:
-            existing_orgs = Organisation.objects.as_dict(keyed_by='code')
+        existing_orgs = Organisation.objects.as_dict(keyed_by='code')
         successor_orgs_to_set = {}
         orgs_to_create = []
 
         print('Updating organisation data...')
         for org_code, org_details in response.json().items():
+            if self.only_orgs_for_dcf:
+                if org_details['organisation_type']['code'] not in DCF_ORG_TYPES:
+                    continue
+
+            if self.only_orgs_for_pp:
+                if org_details['organisation_type']['code'] not in PP_ORG_TYPES:
+                    continue
+
             org_details = self.prepare_organisation_data(org_details)
             print('----------------------------------------------------------')
             print("%s (%s)" % (org_details['name'], org_code))
