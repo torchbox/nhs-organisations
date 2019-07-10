@@ -13,8 +13,31 @@ USER_AUTH_BASIC = os.getenv('NHSI_USER_AUTH_BASIC', '')
 PASSWORD_AUTH_BASIC = os.getenv('NHSI_PASSWORD_AUTH_BASIC', '')
 _AUTH_BASIC = (USER_AUTH_BASIC, PASSWORD_AUTH_BASIC) if USER_AUTH_BASIC else None
 
+DCF_ORG_TYPES = [
+    Organisation.TYPE_PROVIDER,
+    Organisation.TYPE_INDEPENDENT_PROVIDER,
+    Organisation.TYPE_COMMISSIONER,
+    Organisation.TYPE_ALB,
+    Organisation.TYPE_OTHER,
+    Organisation.TYPE_PATHOLOGY_JV,
+]
+
+PP_ORG_TYPES = [
+    Organisation.TYPE_PROVIDER,
+    Organisation.TYPE_INDEPENDENT_PROVIDER,
+    Organisation.TYPE_COMMISSIONER,
+    Organisation.TYPE_ALB,
+]
+
 
 class Command(BaseCommand):
+
+    def add_arguments(self, parser):
+        parser.add_argument('--dcf', action='store_true',
+                            help='Only loads organisation types used by DCF')
+        parser.add_argument('--pp', action='store_true',
+                            help='Only loads organisation types used by Pricing Portal')
+
     help = (
         "Update local Organisations to reflect the data from {}. "
         "Organisations may change or close over time, but should never be "
@@ -23,7 +46,14 @@ class Command(BaseCommand):
     )
 
     @transaction.atomic
-    def handle(self, **kwargs):
+    def handle(self, *args, **kwargs):
+        self.only_orgs_for_dcf = kwargs['dcf']
+        self.only_orgs_for_pp = kwargs['pp']
+
+        if self.only_orgs_for_dcf and self.only_orgs_for_pp:
+            print("You can only select only one flag, --dcf or --pp.")
+            return
+
         print('----------------------------------------------------------')
         print('Refreshing region data')
         print('----------------------------------------------------------')
@@ -82,7 +112,14 @@ class Command(BaseCommand):
         response = requests.get(_URL, auth=_AUTH_BASIC)
         response.raise_for_status()
 
-        existing_orgs = Organisation.objects.as_dict(keyed_by='code')
+        if self.only_orgs_for_dcf:
+            existing_orgs = Organisation.objects.filter(
+                organisation_type__in=DCF_ORG_TYPES).as_dict(keyed_by='code')
+        elif self.only_orgs_for_pp:
+            existing_orgs = Organisation.objects.filter(
+                organisation_type__in=PP_ORG_TYPES).as_dict(keyed_by='code')
+        else:
+            existing_orgs = Organisation.objects.as_dict(keyed_by='code')
         successor_orgs_to_set = {}
         orgs_to_create = []
 
