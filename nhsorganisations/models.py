@@ -43,6 +43,39 @@ class Region(models.Model):
         return self.name
 
 
+class OrganisationType(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(
+        verbose_name=_('name (plural)'),
+        help_text=_('e.g. "Arms Length Bodies"'),
+        max_length=100,
+    )
+    name_singular = models.CharField(
+        verbose_name=_('name (singular)'),
+        help_text=_('e.g. "Arms Length Body"'),
+        max_length=100,
+    )
+    mnemonic = models.SlugField(
+        verbose_name=_('mnemonic name (singular)'),
+        help_text=_('e.g. "alb"'),
+        max_length=50,
+        unique=True,
+    )
+    is_active = models.BooleanField(
+        verbose_name=_('is active'),
+        db_index=True,
+        default=True,
+    )
+
+    class Meta:
+        verbose_name = _('organisation type')
+        verbose_name_plural = _('organisation types')
+        ordering = ('name', )
+
+    def __str__(self):
+        return self.name
+
+
 class Organisation(models.Model):
     """An organisation operating as part of, or in partnership with, the NHS"""
 
@@ -101,6 +134,12 @@ class Organisation(models.Model):
         max_length=25,
         choices=TYPE_CHOICES,
         default=TYPE_OTHER,
+    )
+    type = models.ForeignKey(
+        OrganisationType,
+        verbose_name=_('type'),
+        on_delete=models.CASCADE,
+        null=True,
     )
     region = models.ForeignKey(
         Region,
