@@ -48,6 +48,7 @@ class Organisation(models.Model):
 
     TYPE_PROVIDER = 'provider'
     TYPE_INDEPENDENT_PROVIDER = 'independent-provider'
+    TYPE_COMMUNITY_PROVIDER = 'community-provider'
     TYPE_COMMISSIONER = 'commissioner'
     TYPE_ALB = 'alb'
     TYPE_LOCAL_AUTHORITY = 'local-authority'
@@ -59,6 +60,7 @@ class Organisation(models.Model):
     TYPES = (
         TYPE_PROVIDER,
         TYPE_INDEPENDENT_PROVIDER,
+        TYPE_COMMUNITY_PROVIDER,
         TYPE_COMMISSIONER,
         TYPE_ALB,
         TYPE_LOCAL_AUTHORITY,
@@ -73,6 +75,7 @@ class Organisation(models.Model):
         (TYPE_COMMISSIONER, _('Commissioner')),
         (TYPE_ALB, _("Arm's Length Body (ALB)")),
         (TYPE_INDEPENDENT_PROVIDER, _('Independent Provider')),
+        (TYPE_COMMUNITY_PROVIDER, _('Community Provider')),
         (TYPE_LOCAL_AUTHORITY, _('Local Authority')),
         (TYPE_PATHOLOGY_JV, _('Pathology Joint Venture')),
         (TYPE_GP, _('GP Practice')),
@@ -85,6 +88,7 @@ class Organisation(models.Model):
         (TYPE_COMMISSIONER, _('Commissioners')),
         (TYPE_ALB, _("Arm's Length Bodies")),
         (TYPE_INDEPENDENT_PROVIDER, _('Independent Providers')),
+        (TYPE_COMMUNITY_PROVIDER, _('Community Providers')),
         (TYPE_LOCAL_AUTHORITY, _('Local Authorities')),
         (TYPE_PATHOLOGY_JV, _('Pathology Joint Ventures')),
         (TYPE_GP, _('GP Practices')),
