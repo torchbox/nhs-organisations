@@ -56,6 +56,8 @@ class Organisation(models.Model):
     TYPE_GP = 'gp-practice'
     TYPE_DENTIST = 'dentist'
     TYPE_PHARMACY = 'pharmacy'
+    TYPE_LABORATORY = 'laboratory'
+    TYPE_STP_ICS = 'stp-ics'
     TYPE_OTHER = 'other'
     TYPES = (
         TYPE_PROVIDER,
@@ -68,6 +70,8 @@ class Organisation(models.Model):
         TYPE_GP,
         TYPE_DENTIST,
         TYPE_PHARMACY,
+        TYPE_LABORATORY,
+        TYPE_STP_ICS,
         TYPE_OTHER,
     )
     TYPE_CHOICES = (
@@ -77,10 +81,12 @@ class Organisation(models.Model):
         (TYPE_INDEPENDENT_PROVIDER, _('Independent Provider')),
         (TYPE_COMMUNITY_PROVIDER, _('Community Provider')),
         (TYPE_LOCAL_AUTHORITY, _('Local Authority')),
-        (TYPE_PATHOLOGY_JV, _('Pathology Joint Venture')),
+        (TYPE_PATHOLOGY_JV, _('Pathology Network')),
         (TYPE_GP, _('GP Practice')),
         (TYPE_DENTIST, _('Dentist')),
         (TYPE_PHARMACY, _('Pharmacy')),
+        (TYPE_LABORATORY, _('Laboratory')),
+        (TYPE_STP_ICS, _('STP/ICS')),
         (TYPE_OTHER, _('Other')),
     )
     TYPE_CHOICES_PLURALISED = (
@@ -90,10 +96,12 @@ class Organisation(models.Model):
         (TYPE_INDEPENDENT_PROVIDER, _('Independent Providers')),
         (TYPE_COMMUNITY_PROVIDER, _('Community Providers')),
         (TYPE_LOCAL_AUTHORITY, _('Local Authorities')),
-        (TYPE_PATHOLOGY_JV, _('Pathology Joint Ventures')),
+        (TYPE_PATHOLOGY_JV, _('Pathology Networks')),
         (TYPE_GP, _('GP Practices')),
         (TYPE_DENTIST, _('Dentists')),
         (TYPE_PHARMACY, _('Pharmacies')),
+        (TYPE_LABORATORY, _('Laboratories')),
+        (TYPE_STP_ICS, _('STP/ICS')),
         (TYPE_OTHER, _('Other')),
     )
 
